@@ -60,6 +60,7 @@ function handleImgClick(event) {
       newProdArray[i].votes++;
     }
   }
+  renderImg();
   
   votingRounds--;
   console.log(votingRounds, 'remaining rounds');
