@@ -1,4 +1,4 @@
-console.log('I am working');
+// console.log('I am working');
 
 //* GLOBALS //
 let newProdArray = [];
@@ -22,9 +22,6 @@ function Product(name, fileExtension = 'jpg') {
 
 //*HELPER FUNCTIONS / UTILITIES*//
 function renderImg() {
-  // imgOne.src = randomIndex();
-  // imgTwo.src = randomIndex();
-  // imgThree.src = randomIndex();
   let imgOneidx = randomIndex();
   let imgTwoidx = randomIndex();
   let imgThreeidx = randomIndex();
