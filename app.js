@@ -2,7 +2,7 @@
 
 //* GLOBALS //
 let newProdArray = [];
-let votingRounds = 25;
+let votingRounds = 4;
 
 //*DOM WINDOWS*//
 let imgContainer = document.getElementById("imgContainer");
@@ -10,7 +10,10 @@ let imgOne = document.getElementById('img-one');
 let imgTwo = document.getElementById('img-two');
 let imgThree = document.getElementById('img-three');
 let resultsBtn = document.getElementById('resultsBtn');
-let resultsList = document.getElementById('results-container');
+// let resultsList = document.getElementById('results-container');
+
+//*CANVAS ELEMENT FOR CHART*//
+let ctx = document.getElementById('myChart');
 
 //*CONSTRUCTOR FUNCTION*//
 function Product(name, fileExtension = 'jpg') {
@@ -51,6 +54,58 @@ function randomIndex() {
   return Math.floor(Math.random() * newProdArray.length);
 }
 
+//*HELPER FUNCTION TO RENDER CHART*
+function renderChart() {
+
+let productNames = [];
+let productVotes = [];
+let productViews = [];
+
+for(let i = 0; i < newProdArray.length; i++) {
+  productNames.push(newProdArray[i].name);
+  console.log(productNames);
+  productVotes.push(newProdArray[i].votes);
+  console.log(productVotes);
+  productViews.push(newProdArray[i].views);
+  console.log(productViews);
+}
+console.log(productNames,productVotes,productViews);
+  let chartObj = {
+    type: 'bar',
+    data: {
+      labels: productNames,
+      datasets: [{
+        label: '# of Votes',
+        data: productVotes,
+        borderWidth: 5,
+        backgroundColor: ['pink'],
+        borderColor: ['pink']
+      },
+      {
+        label: '# of Views',
+        data: productViews,
+        borderWidth: 5,
+        backgroundColor: ['yellow'],
+        borderColor: ['yellow']
+      }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: false
+        }
+      }
+    }
+  };
+
+
+
+  new Chart(ctx, chartObj);
+
+}
+//*EVENT HANDLERS*//
+
 function handleImgClick(event) {
   let imgClicked = event.target.title;
   console.dir(imgClicked);
@@ -60,29 +115,32 @@ function handleImgClick(event) {
       newProdArray[i].votes++;
     }
   }
-  renderImg();
-  
+  // renderImg();
+
   votingRounds--;
   console.log(votingRounds, 'remaining rounds');
-  if(votingRounds === 0){
+
+  if (votingRounds === 0) {
     imgContainer.removeEventListener('click', handleImgClick);
+    // renderChart();
   }
-  
+else{
+  renderImg();
 }
-  function handleShowResults() {
+
+}
+function handleShowResults() {
   console.log('testing');
   if (votingRounds === 0) {
-    for (let i = 0; i < newProdArray.length; i++) {
-      let prodListItem = document.createElement('li');
-      prodListItem.textContent = `${newProdArray[i].name} Views: ${newProdArray[i].views} & Votes: ${newProdArray[i].votes}`;
-      resultsList.appendChild(prodListItem);
-    }
+
+    renderChart();
+
     resultsBtn.removeEventListener('click', handleShowResults);
   }
 }
 
 //*EXECUTABLE CODE*//
-let bag = new Product ('bag');
+let bag = new Product('bag');
 let banana = new Product('banana');
 let bathroom = new Product('bathroom');
 let boots = new Product('boots');

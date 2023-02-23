@@ -12,17 +12,26 @@
 </head>
 
 <body>
-  <h1>Vote for our Next "NEW" Product to Sell!</h1>
+  <h1>Vote for Your Favorite Product</h1>
   <main>
       <section id="imgContainer">
       <img id="img-one" src="" alt="" height="280px">
       <img id="img-two" src="" alt="" height="280px">
       <img id="img-three" src="" alt="" height="280px">
-      <button id="resultsBtn" name="button" type="button">Results</button>
+      </section>   
+
+      <div class="vertical-center">
+      <button id="resultsBtn" name="button" type="button">Voting Results</button>
+      </div>
+
       <ul id="results-container">
       </ul>
     </section>
+    <section id="results-container">
+      <canvas id="myChart"></canvas>
+    </section>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
   <script src="app.js"></script>
 </body>
 
