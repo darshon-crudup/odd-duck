@@ -2,7 +2,7 @@
 
 //* GLOBALS //
 let newProdArray = [];
-let votingRounds = 4;
+let votingRounds = 25;
 
 //*DOM WINDOWS*//
 let imgContainer = document.getElementById("imgContainer");
