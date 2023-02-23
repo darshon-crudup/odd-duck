@@ -4,8 +4,20 @@
 
 h1 {
   text-align: center;
+  color: yellow;
 }
 
 .vertical-center {
   margin-left: 45%;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width:fit-content;
+}
+
+body {
+  background-color: black;
 }
