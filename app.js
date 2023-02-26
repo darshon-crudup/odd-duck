@@ -63,7 +63,7 @@ let productViews = [];
 
 for(let i = 0; i < newProdArray.length; i++) {
   productNames.push(newProdArray[i].name);
-  console.log(productNames);
+  // console.log(productNames);
   productVotes.push(newProdArray[i].votes);
   console.log(productVotes);
   productViews.push(newProdArray[i].views);
@@ -93,7 +93,15 @@ console.log(productNames,productVotes,productViews);
     options: {
       scales: {
         y: {
-          beginAtZero: false
+          beginAtZero: false,
+          ticks: {
+            color: 'yellow',
+          }
+        }
+      },
+      x: {
+        ticks: {
+          color: 'yellow',
         }
       }
     }
@@ -108,27 +116,32 @@ console.log(productNames,productVotes,productViews);
 
 function handleImgClick(event) {
   let imgClicked = event.target.title;
-  console.dir(imgClicked);
 
   for (let i = 0; i < newProdArray.length; i++) {
     if (imgClicked === newProdArray[i].name) {
       newProdArray[i].votes++;
     }
   }
-  // renderImg();
 
   votingRounds--;
-  console.log(votingRounds, 'remaining rounds');
+  // console.log(votingRounds, 'remaining rounds');
 
   if (votingRounds === 0) {
     imgContainer.removeEventListener('click', handleImgClick);
-    // renderChart();
+
+    //*LOCAL STORAGE STARTS HERE*//
+    let stringifiednewProdArray = JSON.stringify(newProdArray);
+
+    console.log('Stringified newProdArray >>> ', stringifiednewProdArray);
+
+    localStorage.setItem('newProdArray', stringifiednewProdArray);
   }
 else{
   renderImg();
 }
 
 }
+
 function handleShowResults() {
   console.log('testing');
   if (votingRounds === 0) {
@@ -140,6 +153,36 @@ function handleShowResults() {
 }
 
 //*EXECUTABLE CODE*//
+
+//*LOCAL STORAGE CONTINUES*//
+
+let retrievedProducts = localStorage.getItem('myProducts');
+
+// console.log('Products from LS >>>', retrievedProducts);
+
+let parsedProducts = JSON.parse(retrievedProducts);
+
+// console.log('Parsed Products >>>>', parsedProducts);
+
+
+//*REBUILD NEW PRODUCTS USING THE CONSTRUCTOR*//
+
+if(retrievedProducts) {
+  for(let i = 0; i < parsedProducts.length; i++){
+    if(parsedProducts[i].name === 'bunny-goat'){
+      let reconstructedBunnyGoat = new Product(parsedProducts[i].name);
+      reconstructedBunnyGoat.views = parsedProducts[i].views;
+      reconstructedBunnyGoat.votes = parsedProducts[i].votes;
+      newProdArray.push(reconstructedBunnyGoat);
+    } else {
+      let reconstructedProduct = new Product(parsedProducts[i].name);
+      reconstructedProduct.views = parsedProducts[i].views;
+      reconstructedProduct.votes = parsedProducts[i].votes;
+      newProdArray.push(reconstructedProduct);
+    }
+  }
+
+} else {
 let bag = new Product('bag');
 let banana = new Product('banana');
 let bathroom = new Product('bathroom');
@@ -158,9 +201,12 @@ let water = new Product('water-can');
 let wine = new Product('wine-glass');
 
 newProdArray.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogduck, dragon, pen, pet, tauntaun, unicorn, water, wine);
+}
+
+// console.log('NewProdArray after if/else', newProdArray)
+// console.log('Normal Original newProdArray', newProdArray);
 
 renderImg();
-console.log(resultsBtn);
 
 imgContainer.addEventListener('click', handleImgClick);
 resultsBtn.addEventListener('click', handleShowResults);
